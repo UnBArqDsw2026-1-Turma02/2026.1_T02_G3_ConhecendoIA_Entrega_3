@@ -19,6 +19,8 @@ export default function LoginPage() {
     console.log("ID da Conexão (Logs):", conexao2.connectionId);
     console.log("O Singleton funcionou? São a mesma conexão?", dbAuth === dbLogs);
 
+    alert("Olhe o console do navegador (F12) para ver o Singleton em ação!");
+    
     router.push('/home');
   };
 
