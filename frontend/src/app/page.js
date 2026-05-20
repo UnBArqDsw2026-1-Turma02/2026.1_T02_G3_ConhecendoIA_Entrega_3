@@ -1,28 +1,25 @@
-"use client"; // Adicionamos isso porque vamos ter interação (clicar no botão de entrar)
+"use client";
 
-// Importamos o nosso padrão Singleton para gerenciar conexões com o banco de dados
+import { useRouter } from 'next/navigation';
 import DatabaseConnectionManager from "../lib/db/DatabaseConnectionManager";
 
 export default function LoginPage() {
+  const router = useRouter();
 
-  // Função que será executada quando o usuário clicar em "Entrar"
   const handleLogin = () => {
     console.log("Iniciando processo de login...");
 
-    // Simulando o Módulo de Autenticação pedindo a conexão com o banco
     const dbAuth = new DatabaseConnectionManager();
     const conexao1 = dbAuth.getConnection();
 
-    // Simulando outro módulo (ex: Módulo de Logs) pedindo a conexão logo em seguida
     const dbLogs = new DatabaseConnectionManager();
     const conexao2 = dbLogs.getConnection();
 
-    // Teste no Console do Navegador
     console.log("ID da Conexão (Auth):", conexao1.connectionId);
     console.log("ID da Conexão (Logs):", conexao2.connectionId);
     console.log("O Singleton funcionou? São a mesma conexão?", dbAuth === dbLogs);
-    
-    alert("Olhe o console do navegador (F12) para ver o Singleton em ação!");
+
+    router.push('/home');
   };
 
   return (
@@ -63,7 +60,6 @@ export default function LoginPage() {
             <a href="#" className="forgot-password">Esqueci minha senha</a>
 
             <div className="action-buttons">
-              {/* Adicionamos o evento onClick aqui! */}
               <button 
                 type="button" 
                 className="btn btn-primary"
