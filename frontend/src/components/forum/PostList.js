@@ -7,7 +7,7 @@ import {
   SortByDateAscendingStrategy,
   SortByCreatorAscendingStrategy,
   SortByCreatorDescendingStrategy
-} from '../../lib/sortingStrategies'; 
+} from '@/lib/sortingStrategies';
 
 // Dicionário de Estratégias
 const sortingOptions = {
