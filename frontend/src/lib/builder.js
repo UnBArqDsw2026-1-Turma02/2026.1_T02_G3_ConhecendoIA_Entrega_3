@@ -7,6 +7,16 @@ class TrilhaAprendizagem {
     this.nivel = "";
     this.modulos = [];
   }
+
+  // Método do diagrama — pertence ao produto, não ao builder
+  adicionarModulo(m) {
+    this.modulos.push(m);
+  }
+
+  // Método do diagrama
+  recomendarParaUsuario(u) {
+    return this.nivel === u.nivel;
+  }
 }
 
 // Builder
