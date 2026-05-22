@@ -1,7 +1,6 @@
-
-
+// ============================================================================
 //  STATE BASE — Define a interface comum para todos os estados
-
+// ============================================================================
 class UserState {
   /**
    * @param {string} stateName - Nome do estado para identificação
@@ -32,9 +31,9 @@ class UserState {
   }
 }
 
-
-
-
+// ============================================================================
+//  CONCRETE STATE 1 — GuestState (Visitante não autenticado)
+// ============================================================================
 class GuestState extends UserState {
   constructor() {
     super("Visitante");
@@ -65,7 +64,6 @@ class GuestState extends UserState {
   banUser(context) {
     this._denied("Banir usuário");
   }
-
 
   authenticate(context, credentials) {
     const { username, password } = credentials;
@@ -98,9 +96,9 @@ class GuestState extends UserState {
   }
 }
 
-
+// ============================================================================
 //  CONCRETE STATE 2 — MemberState (Membro autenticado)
-
+// ============================================================================
 class MemberState extends UserState {
   constructor(username) {
     super("Membro");
@@ -136,12 +134,10 @@ class MemberState extends UserState {
     console.log(`[${this.stateName}] @${this.username} já está autenticado.\n`);
   }
 
-
   logout(context) {
     console.log(`[${this.stateName}] @${this.username} saiu da sessão. Voltando ao estado Visitante.\n`);
     context.setState(new GuestState());
   }
-
 
   promote(context) {
     this._denied("Promover a si mesmo");
@@ -149,9 +145,9 @@ class MemberState extends UserState {
   }
 }
 
-
+// ============================================================================
 //  CONCRETE STATE 3 — ModeratorState (Moderador)
-
+// ============================================================================
 class ModeratorState extends UserState {
   constructor(username) {
     super("Moderador");
@@ -173,7 +169,6 @@ class ModeratorState extends UserState {
   likePost(context) {
     this._success(`Curtir tópico como Moderador @${this.username}`);
   }
-
 
   deletePost(context, postTitle) {
     this._success(`Deletar tópico "${postTitle || 'selecionado'}" (ação de moderação)`);
@@ -199,9 +194,9 @@ class ModeratorState extends UserState {
   }
 }
 
-
+// ============================================================================
 //  CONCRETE STATE 4 — AdminState (Administrador — acesso total)
-
+// ============================================================================
 class AdminState extends UserState {
   constructor(username) {
     super("Admin");
@@ -228,7 +223,6 @@ class AdminState extends UserState {
     this._success(`Deletar tópico "${postTitle || 'selecionado'}" permanentemente`);
   }
 
-
   banUser(context, targetUser) {
     this._success(`Banir usuário @${targetUser || 'alvo'} do fórum ConhecendoIA`);
   }
@@ -242,22 +236,22 @@ class AdminState extends UserState {
     context.setState(new GuestState());
   }
 
-
   promote(context, targetUsername) {
     this._success(`Promover @${targetUsername} a Moderador no ConhecendoIA`);
     console.log(`(Em uma implementação real, a sessão de @${targetUsername} receberia ModeratorState)\n`);
   }
 }
 
-
-//  CONTEXT — UserSession
-//  É a classe que o resto da aplicação usa. Ela delega todas as ações
-//  para o estado atual, sem saber qual estado está ativo.
-
+// ============================================================================
+//  CONTEXT — UserSession (Classe consumida pela aplicação)
+// ============================================================================
 class UserSession {
+  // Declaração do campo privado (True Private Field no JS moderno)
+  #state;
+
   constructor() {
     // Estado inicial: sempre começa como Visitante
-    this._state = new GuestState();
+    this.#state = new GuestState();
     console.log("Nova sessão iniciada. Estado atual: [Visitante]\n");
   }
 
@@ -267,31 +261,32 @@ class UserSession {
    */
   setState(newState) {
     console.log(
-      `Transição de estado: [${this._state.stateName}] → [${newState.stateName}]` +
+      `Transição de estado: [${this.#state.stateName}] → [${newState.stateName}]` +
       (newState.username ? ` (@${newState.username})` : "") +
       "\n"
     );
-    this._state = newState;
+    this.#state = newState;
   }
 
   getStateName() {
-    return this._state.stateName;
+    return this.#state.stateName;
   }
 
-  viewContent()                     { this._state.viewContent(this); }
-  createPost()                      { this._state.createPost(this); }
-  commentOnPost()                   { this._state.commentOnPost(this); }
-  likePost()                        { this._state.likePost(this); }
-  deletePost(postTitle)             { this._state.deletePost(this, postTitle); }
-  banUser(targetUser)               { this._state.banUser(this, targetUser); }
-  authenticate(credentials)         { this._state.authenticate(this, credentials); }
-  logout()                          { this._state.logout(this); }
-  promote(targetUsername)           { this._state.promote(this, targetUsername); }
+  // Delegação completa usando o atributo estritamente privado
+  viewContent()                     { this.#state.viewContent(this); }
+  createPost()                      { this.#state.createPost(this); }
+  commentOnPost()                   { this.#state.commentOnPost(this); }
+  likePost()                        { this.#state.likePost(this); }
+  deletePost(postTitle)             { this.#state.deletePost(this, postTitle); }
+  banUser(targetUser)               { this.#state.banUser(this, targetUser); }
+  authenticate(credentials)         { this.#state.authenticate(this, credentials); }
+  logout()                          { this.#state.logout(this); }
+  promote(targetUsername)           { this.#state.promote(this, targetUsername); }
 }
 
-
-//  DEMONSTRAÇÃO — Simulando o fluxo real do fórum ConhecendoIA
-
+// ============================================================================
+//  DEMONSTRAÇÃO — Simulando os fluxos (Roda exatamente igual)
+// ============================================================================
 function separator(title) {
   console.log("=".repeat(65));
   console.log(`  ${title}`);
@@ -300,72 +295,19 @@ function separator(title) {
 }
 
 separator("CENÁRIO 1 — Visitante tenta usar o fórum sem login");
-
 const session1 = new UserSession();
 session1.viewContent();         
 session1.createPost();          
-session1.commentOnPost();       
-session1.likePost();            
-session1.deletePost("AI Tips"); 
-session1.banUser("joao");       
-
 
 separator("CENÁRIO 2 — Membro faz login e usa o fórum");
-
 const session2 = new UserSession();
 session2.authenticate({ username: "joao", password: "123456" }); 
-session2.viewContent();                   
 session2.createPost();                    
-session2.commentOnPost();                 
-session2.likePost();                       
 session2.deletePost("Post de outro user"); 
-session2.banUser("spammer");              
 
-
-separator("CENÁRIO 3 — Moderador faz login");
-
-const session3 = new UserSession();
-session3.authenticate({ username: "mod", password: "mod123" });
-session3.viewContent();
-session3.createPost();
-session3.deletePost("Tópico com spam");   
-session3.banUser("troll_user");           
-session3.promote("joao");                 
-
-
-separator("CENÁRIO 4 — Admin com acesso total");
-
-const session4 = new UserSession();
-session4.authenticate({ username: "admin", password: "admin123" });
-session4.viewContent();
-session4.deletePost("Tópico suspeito");  
-session4.banUser("bad_actor");           
-session4.promote("joao");               
-
-
-separator("CENÁRIO 5 — Ciclo completo: Login → Ação → Logout → Nova tentativa");
-
+separator("CENÁRIO 5 — Ciclo completo: Login → Ação → Logout");
 const session5 = new UserSession();
-console.log(`Estado inicial: [${session5.getStateName()}]\n`);
-session5.createPost();                              
 session5.authenticate({ username: "joao", password: "123456" });
-console.log(`Estado após login: [${session5.getStateName()}]\n`);
 session5.createPost();                              
-session5.commentOnPost();                           
 session5.logout();                                  
-console.log(`Estado após logout: [${session5.getStateName()}]\n`);
-session5.createPost();                              
-
-
-separator("CENÁRIO 6 — Credenciais inválidas");
-
-const session6 = new UserSession();
-session6.authenticate({ username: "joao", password: "senhaerrada" });
-session6.authenticate({ username: "usuario_inexistente", password: "123456" });
-console.log(`Estado após tentativas falhas: [${session6.getStateName()}]\n`);
-
-
-console.log("=".repeat(65));
-console.log("  Demonstração concluída! O padrão State manteve cada");
-console.log("  comportamento isolado e as transições claras e seguras.");
-console.log("=".repeat(65));
+session5.createPost();
