@@ -47,26 +47,21 @@ class ProxyServicoTopico {
     }
 }
 
-// --- Testando a Implementação no Backend ---
+// Backend 
 
-// Simulando nossos usuários criados
+
 const admin = { nome: 'Guilherme', tipo: 'Administrador' };
 const membro = { nome: 'João', tipo: 'Membro' };
 
 console.log("--- CENÁRIO 1: O Membro tentando acessar e deletar ---");
 const proxyMembro = new ProxyServicoTopico(membro);
 
-// A primeira leitura vai no Banco de Dados
 console.log(proxyMembro.visualizarTopico("101")); 
-// A segunda leitura devolve do Cache (muito mais rápido)
 console.log(proxyMembro.visualizarTopico("101")); 
 
-// O membro tenta excluir o tópico
 proxyMembro.excluirTopico("101"); 
-
 
 console.log("\n--- CENÁRIO 2: O Administrador assumindo o controle ---");
 const proxyAdmin = new ProxyServicoTopico(admin);
 
-// O Admin tenta excluir e consegue
 proxyAdmin.excluirTopico("101");
