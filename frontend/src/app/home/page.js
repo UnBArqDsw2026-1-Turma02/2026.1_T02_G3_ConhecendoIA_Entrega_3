@@ -15,10 +15,11 @@ const discussions = [
     id: 1,
     tag: 'DEEP LEARNING',
     tagColor: '#6C63FF',
-    tagBg: '#EEEDFE',
-    time: '3 hours ago by @lorem_ipsum',
+    tagBg: '#F1EEFF',
+    time: '2 hours ago by @lorem_ipsum',
     title: 'Como funciona o DEEP LEARNING no aprendizado de máquina?',
-    excerpt: 'O deep learning ou aprendizado profundo baseia-se no machine learning para, a partir de uma grande quantidade de dados e após inúmeras camadas de processamento com algoritmos.',
+    excerpt:
+      'O deep learning ou aprendizado profundo baseia-se no machine learning para, a partir de uma grande quantidade de dados e após inúmeras camadas de processamento com algoritmos.',
     comments: 24,
     views: '1.2k',
     icon: '📘',
@@ -26,559 +27,877 @@ const discussions = [
   {
     id: 2,
     tag: 'DATA SCIENCE',
-    tagColor: '#0F6E56',
-    tagBg: '#E1F5EE',
+    tagColor: '#0F9B71',
+    tagBg: '#E8FFF7',
     time: '5 hours ago by @fabio_ali',
     title: 'Como a ciência de dados afeta o desenvolvimento das IAs',
-    excerpt: 'Recentemente muitos estudos sobre Data Science vêm à tona e a principal discussão foi de como a manipulação de dados pela IAs interfere em seu desenvolvimento.',
+    excerpt:
+      'Recentemente muitos estudos sobre Data Science vêm à tona e a principal discussão foi de como a manipulação de dados pela IAs interfere em seu desenvolvimento.',
     comments: 12,
-    views: '843',
+    views: '842',
     icon: '📗',
   },
   {
     id: 3,
     tag: 'MACHINE LEARNING',
-    tagColor: '#185FA5',
-    tagBg: '#E6F1FB',
+    tagColor: '#2F80ED',
+    tagBg: '#EEF5FF',
     time: 'Yesterday by @conhecendoia',
     title: 'Como funciona o Machine Learning?',
-    excerpt: 'Muitos se perguntam como uma Inteligência Artificial trabalha para que possa manipular uma quantidade quase infinita de dados.',
-    comments: 21,
-    views: '5.4k',
+    excerpt:
+      'Muitos se perguntam como uma Inteligência Artificial trabalha para que possa manipular uma quantidade quase infinita de dados.',
+    comments: 39,
+    views: '2.4k',
     icon: '📙',
   },
 ];
 
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState('latest');
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   return (
     <>
       <style>{`
-        * {
-          box-sizing: border-box;
-          margin: 0;
-          padding: 0;
+        *{
+          margin:0;
+          padding:0;
+          box-sizing:border-box;
         }
 
-        body {
-          font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
-          background-color: #f9f9fb;
+        body{
+          font-family:Inter,system-ui,sans-serif;
+          background:#f5f6fb;
+          overflow-x:hidden;
         }
 
-        .layout {
-          display: flex;
-          height: 100vh;
-          overflow: hidden;
+        .page{
+          min-height:100vh;
+          display:flex;
+          flex-direction:column;
         }
 
-        /* Overlay */
-        .overlay {
-          display: none;
-          position: fixed;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.4);
-          z-index: 40;
-          backdrop-filter: blur(2px);
-        }
-        .overlay.open {
-          display: block;
+        /* ───────── TOPBAR ───────── */
+
+        .topbar{
+          width:100%;
+          height:58px;
+
+          background:#fff;
+
+          border-bottom:1px solid #e5e7eb;
+
+          display:flex;
+          align-items:center;
+
+          padding:0 24px;
+
+          position:sticky;
+          top:0;
+          z-index:100;
         }
 
-        /* Sidebar */
-        .sidebar {
-          width: 260px;
-          min-width: 260px;
-          background: #fff;
-          border-right: 1px solid #e5e7eb;
-          display: flex;
-          flex-direction: column;
-          overflow-y: auto;
-          flex-shrink: 0;
-          transition: transform 0.25s ease;
-          z-index: 50;
+        .logo{
+          font-size:16px;
+          font-weight:800;
+
+          color:#111827;
+
+          margin-right:28px;
+
+          white-space:nowrap;
+
+          display:flex;
+          align-items:center;
+
+          flex-shrink:0;
         }
 
-        .sidebar-logo {
-          padding: 24px 20px;
-          border-bottom: 1px solid #e5e7eb;
-          font-weight: 700;
-          font-size: 1.1rem;
-          color: #1a1a2e;
+        .nav{
+          display:flex;
+          align-items:center;
+          gap:6px;
         }
 
-        .nav-link {
-          display: block;
-          padding: 10px 20px;
-          font-size: 0.9rem;
-          text-decoration: none;
-          border-radius: 8px;
-          margin: 0 8px;
-          transition: all 0.2s;
+        .nav-link{
+          font-size:13px;
+          font-weight:500;
+
+          color:#6b7280;
+          text-decoration:none;
+
+          padding:8px 14px;
+
+          border-radius:8px;
+
+          transition:.15s;
         }
 
-        .cat-section {
-          padding: 0 20px;
-          margin-top: 8px;
+        .nav-link:hover{
+          background:#f3f4f6;
         }
 
-        .cat-label {
-          font-size: 0.7rem;
-          font-weight: 600;
-          color: #9ca3af;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          margin-bottom: 12px;
-          display: block;
+        .nav-link.active{
+          background:#f1eeff;
+          color:#6C63FF;
+          font-weight:700;
         }
 
-        .cat-link {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 8px 0;
-          font-size: 0.85rem;
-          color: #374151;
-          text-decoration: none;
-        }
-        .cat-link:hover {
-          color: #6C63FF;
+        .bell{
+          margin-left:auto;
+
+          font-size:14px;
+
+          display:flex;
+          align-items:center;
+
+          color:#6b7280;
+
+          cursor:pointer;
         }
 
-        /* Main wrapper */
-        .main-wrapper {
-          flex: 1;
-          overflow-y: auto;
-          overflow-x: hidden;
-          padding: 32px 48px;
-          min-width: 0;
+        /* ───────── BODY ───────── */
+
+        .body{
+          display:flex;
+          flex:1;
         }
 
-        .main-content {
-          width: 100%;
-          max-width: 1280px;
-          margin: 0 auto;
+        /* ───────── SIDEBAR ───────── */
+
+        .sidebar{
+          width:220px;
+          min-width:220px;
+
+          background:#fff;
+
+          border-right:1px solid #e5e7eb;
+
+          padding-top:24px;
         }
 
-        /* Hero text */
-        .hero-text {
-          margin-bottom: 2rem;
-        }
-        .hero-text h1 {
-          font-size: clamp(1.5rem, 5vw, 1.9rem);
-          font-weight: 700;
-          color: #1a1a2e;
-          margin-bottom: 0.5rem;
-          line-height: 1.3;
-        }
-        .hero-text p {
-          font-size: 0.95rem;
-          color: #6b7280;
-          max-width: 90%;
-          line-height: 1.5;
+        .sidebar-title{
+          padding:0 24px;
+
+          font-size:13px;
+          font-weight:700;
+
+          color:#9ca3af;
+
+          text-transform:uppercase;
+
+          margin-bottom:4px;
         }
 
-        /* TOP GRID - CORRIGIDO PARA NÃO FICAR MENOR */
-        .top-grid {
-          display: grid;
-          grid-template-columns: 1fr 180px 180px;
-          gap: 1.25rem;
-          margin-bottom: 2.5rem;
-          align-items: stretch;
+        .sidebar-sub{
+          padding:0 24px;
+
+          font-size:12px;
+
+          color:#b0b6c2;
+
+          margin-bottom:24px;
         }
 
-        .card {
-          background: #fff;
-          border: 1px solid #e5e7eb;
-          border-radius: 1rem;
-          transition: box-shadow 0.15s;
-          display: flex;
-          flex-direction: column;
+        .category{
+          width:100%;
+
+          display:flex;
+          align-items:center;
+
+          gap:12px;
+
+          padding:11px 24px;
+
+          text-decoration:none;
+
+          color:#374151;
+
+          font-size:15px;
+          font-weight:500;
+
+          transition:.15s;
         }
 
-        .trending-card {
-          padding: 1.5rem;
-          justify-content: space-between;
-          min-height: 180px;
+        .category:hover{
+          background:#f9fafb;
+          color:#6C63FF;
         }
 
-        .stat-card {
-          padding: 1.25rem 1rem;
-          justify-content: center;
-          align-items: center;
-          text-align: center;
-          gap: 0.5rem;
-          min-height: 180px;
+        .category span:first-child{
+          font-size:18px;
+
+          width:20px;
+
+          display:flex;
+          justify-content:center;
         }
 
-        .stat-number {
-          font-size: 2rem;
-          font-weight: 700;
-          color: #1a1a2e;
-          line-height: 1.2;
+        /* ───────── MAIN ───────── */
+
+        .main{
+          flex:1;
+
+          padding:34px 32px;
         }
 
-        .stat-label {
-          font-size: 0.7rem;
-          color: #9ca3af;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          font-weight: 500;
+        .title{
+          font-size:56px;
+          line-height:1.1;
+
+          font-weight:800;
+
+          color:#111827;
+
+          max-width:820px;
+
+          margin-bottom:16px;
         }
 
-        .trending-badge {
-          display: inline-block;
-          font-size: 0.7rem;
-          font-weight: 700;
-          letter-spacing: 0.08em;
-          color: #6C63FF;
-          background-color: #EEEDFE;
-          padding: 0.25rem 0.75rem;
-          border-radius: 4px;
-          margin-bottom: 0.75rem;
-          align-self: flex-start;
+        .subtitle{
+          font-size:15px;
+
+          color:#6b7280;
+
+          margin-bottom:34px;
         }
 
-        .trending-title {
-          font-size: 1.1rem;
-          font-weight: 600;
-          color: #1a1a2e;
-          margin-bottom: 0.5rem;
-          line-height: 1.4;
+        /* ───────── GRID ───────── */
+
+        .top-grid{
+          display:grid;
+
+          grid-template-columns:1fr 165px 165px;
+
+          gap:16px;
+
+          margin-bottom:34px;
         }
 
-        .trending-description {
-          font-size: 0.85rem;
-          color: #6b7280;
-          margin-bottom: 1rem;
-          line-height: 1.5;
+        .card{
+          background:#fff;
+
+          border:1px solid #eceef3;
+
+          border-radius:16px;
         }
 
-        .trending-participants {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          font-size: 0.8rem;
-          color: #6b7280;
-          margin-top: auto;
+        .trend-card{
+          padding:24px;
         }
 
-        /* Discussion item */
-        .disc-item {
-          background: #fff;
-          border: 1px solid #e5e7eb;
-          border-radius: 0.75rem;
-          padding: 1rem 1.25rem;
-          display: flex;
-          gap: 1rem;
-          cursor: pointer;
-          transition: box-shadow 0.15s;
-          margin-bottom: 0.75rem;
-        }
-        .disc-item:hover {
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-          border-color: #d1d5db;
+        .badge{
+          display:inline-flex;
+
+          background:#F1EEFF;
+
+          color:#6C63FF;
+
+          font-size:10px;
+          font-weight:700;
+
+          padding:4px 8px;
+
+          border-radius:6px;
+
+          margin-bottom:16px;
         }
 
-        /* Hamburger */
-        .hamburger {
-          display: none;
-          position: fixed;
-          top: 1rem;
-          left: 1rem;
-          z-index: 60;
-          background: #6C63FF;
-          color: white;
-          border: none;
-          border-radius: 0.5rem;
-          width: 40px;
-          height: 40px;
-          font-size: 1.4rem;
-          cursor: pointer;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        .trend-title{
+          font-size:24px;
+
+          line-height:1.25;
+
+          font-weight:800;
+
+          color:#111827;
+
+          margin-bottom:14px;
         }
 
-        /* ========== RESPONSIVIDADE ========== */
-        @media (max-width: 1100px) {
-          .main-wrapper {
-            padding: 28px 32px;
+        .trend-desc{
+          font-size:14px;
+
+          color:#6b7280;
+
+          line-height:1.7;
+
+          margin-bottom:28px;
+        }
+
+        .trend-footer{
+          display:flex;
+          align-items:center;
+
+          gap:8px;
+
+          font-size:13px;
+
+          color:#6b7280;
+        }
+
+        .stat-card{
+          display:flex;
+          flex-direction:column;
+          align-items:center;
+          justify-content:center;
+
+          text-align:center;
+
+          padding:20px;
+        }
+
+        .stat-icon{
+          font-size:26px;
+
+          margin-bottom:12px;
+        }
+
+        .stat-number{
+          font-size:22px;
+
+          font-weight:800;
+
+          color:#111827;
+
+          margin-bottom:8px;
+        }
+
+        .stat-label{
+          font-size:11px;
+
+          color:#9ca3af;
+
+          font-weight:700;
+
+          letter-spacing:.04em;
+        }
+
+        /* ───────── DISCUSSIONS ───────── */
+
+        .disc-header{
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+
+          margin-bottom:16px;
+        }
+
+        .disc-title{
+          font-size:24px;
+
+          font-weight:800;
+
+          color:#111827;
+        }
+
+        .tabs{
+          display:flex;
+          gap:8px;
+        }
+
+        .tab{
+          border:none;
+
+          background:transparent;
+
+          padding:8px 14px;
+
+          border-radius:8px;
+
+          cursor:pointer;
+
+          font-size:13px;
+
+          color:#6b7280;
+
+          font-weight:500;
+        }
+
+        .tab.active{
+          background:#111827;
+
+          color:#fff;
+        }
+
+        .discussion{
+          background:#fff;
+
+          border:1px solid #eceef3;
+
+          border-radius:14px;
+
+          padding:18px 20px;
+
+          display:flex;
+
+          align-items:flex-start;
+
+          gap:16px;
+
+          margin-bottom:14px;
+
+          transition:.15s;
+        }
+
+        .discussion:hover{
+          box-shadow:0 2px 12px rgba(0,0,0,.05);
+        }
+
+        .disc-icon{
+          width:42px;
+          height:42px;
+
+          border-radius:10px;
+
+          display:flex;
+          align-items:center;
+          justify-content:center;
+
+          flex-shrink:0;
+
+          font-size:18px;
+        }
+
+        .disc-content{
+          flex:1;
+        }
+
+        .disc-meta{
+          display:flex;
+          align-items:center;
+
+          gap:8px;
+
+          margin-bottom:8px;
+
+          flex-wrap:wrap;
+        }
+
+        .tag{
+          font-size:10px;
+
+          font-weight:700;
+
+          padding:4px 8px;
+
+          border-radius:5px;
+        }
+
+        .time{
+          font-size:11px;
+
+          color:#9ca3af;
+        }
+
+        .disc-name{
+          font-size:18px;
+
+          font-weight:700;
+
+          color:#111827;
+
+          margin-bottom:8px;
+        }
+
+        .excerpt{
+          font-size:14px;
+
+          color:#6b7280;
+
+          line-height:1.6;
+        }
+
+        .stats{
+          display:flex;
+          flex-direction:column;
+
+          gap:8px;
+
+          white-space:nowrap;
+
+          color:#6b7280;
+
+          font-size:13px;
+        }
+
+        /* ───────── FOOTER ───────── */
+
+        .footer{
+          background:#fff;
+
+          border-top:1px solid #e5e7eb;
+
+          padding:18px 24px;
+
+          text-align:center;
+        }
+
+        .footer-links{
+          display:flex;
+          justify-content:center;
+
+          gap:22px;
+
+          flex-wrap:wrap;
+
+          margin-bottom:10px;
+        }
+
+        .footer-link{
+          font-size:12px;
+
+          color:#9ca3af;
+
+          text-decoration:none;
+        }
+
+        .footer-brand{
+          font-size:13px;
+
+          font-weight:700;
+
+          color:#111827;
+
+          margin-bottom:4px;
+        }
+
+        .footer-copy{
+          font-size:11px;
+
+          color:#9ca3af;
+        }
+
+        /* ───────── RESPONSIVE ───────── */
+
+        @media(max-width:1000px){
+
+          .sidebar{
+            display:none;
           }
-          .top-grid {
-            grid-template-columns: 1fr 160px 160px;
-            gap: 1rem;
+
+          .top-grid{
+            grid-template-columns:1fr;
           }
-          .trending-card, .stat-card {
-            min-height: 160px;
+
+          .main{
+            padding:24px;
+          }
+
+          .title{
+            font-size:40px;
           }
         }
 
-        @media (max-width: 900px) {
-          .hamburger {
-            display: flex;
+        @media(max-width:640px){
+
+          .topbar{
+            padding:0 16px;
           }
-          .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            transform: translateX(-100%);
-            width: min(75%, 260px);
-            min-width: unset;
-            box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
+
+          .logo{
+            font-size:15px;
           }
-          .sidebar.open {
-            transform: translateX(0);
+
+          .nav-link{
+            font-size:12px;
+            padding:7px 10px;
           }
-          .main-wrapper {
-            padding: 24px 24px;
+
+          .main{
+            padding:20px 16px;
           }
-          .top-grid {
-            grid-template-columns: 1fr 1fr;
+
+          .title{
+            font-size:32px;
           }
-          .trending-card {
-            grid-column: 1 / -1;
+
+          .discussion{
+            flex-direction:column;
+          }
+
+          .stats{
+            flex-direction:row;
           }
         }
-
-        @media (max-width: 640px) {
-          .main-wrapper {
-            padding: 20px 16px;
-          }
-          .hero-text h1 {
-            font-size: 1.6rem;
-          }
-          .stat-number {
-            font-size: 1.7rem;
-          }
-          .trending-title {
-            font-size: 1rem;
-          }
-          .trending-card, .stat-card {
-            min-height: auto;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .top-grid {
-            grid-template-columns: 1fr;
-          }
-          .trending-card {
-            grid-column: unset;
-          }
-          .stat-card {
-            flex-direction: row;
-            justify-content: space-between;
-            padding: 0.75rem 1rem;
-          }
-          .stat-card .stat-number {
-            font-size: 1.5rem;
-          }
+        .logo::before,
+        .logo::after,
+        .logo *::before,
+        .logo *::after {
+          display: none !important;
+          content: none !important;
         }
       `}</style>
 
-      <button className="hamburger" onClick={() => setSidebarOpen(true)} aria-label="Menu">
-        ☰
-      </button>
+      <div className="page">
 
-      <div
-        className={`overlay${sidebarOpen ? ' open' : ''}`}
-        onClick={() => setSidebarOpen(false)}
-      />
+        {/* ───────── TOPBAR ───────── */}
 
-      <div className="layout">
-        {/* Sidebar */}
-        <aside className={`sidebar${sidebarOpen ? ' open' : ''}`}>
-          <div className="sidebar-logo">ConhecendoIA</div>
-          <nav style={{ padding: '0.5rem 0' }}>
-            {[
-              { label: 'Home', href: '#', active: true },
-              { label: 'Discussões', href: '#', active: false },
-              { label: 'Perfil', href: '#', active: false },
-            ].map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="nav-link"
-                style={{
-                  color: item.active ? '#6C63FF' : '#6b7280',
-                  fontWeight: item.active ? 600 : 400,
-                  backgroundColor: item.active ? '#EEEDFE' : 'transparent',
-                }}
-                onClick={() => setSidebarOpen(false)}
-              >
-                {item.label}
-              </a>
-            ))}
+        <header className="topbar">
+
+       <div 
+  className="logo" 
+  style={{ 
+    all: 'revert',
+    display: 'flex', 
+    alignItems: 'center', 
+    background: 'transparent', 
+    border: 'none',
+    fontWeight: 800,
+    color: '#111827',
+    marginRight: '28px'
+  }}
+>
+  ConhecendoIA
+</div>
+
+          <nav className="nav">
+
+            <a href="#" className="nav-link active">
+              Home
+            </a>
+
+            <a href="#" className="nav-link">
+              Discussões
+            </a>
+
+            <a href="#" className="nav-link">
+              Perfil
+            </a>
+
           </nav>
-          <div className="cat-section">
-            <span className="cat-label">Categorias</span>
-            {categories.map((cat) => (
-              <a key={cat.name} href="#" className="cat-link" onClick={() => setSidebarOpen(false)}>
-                <span style={{ fontSize: '1rem' }}>{cat.icon}</span>
-                {cat.name}
-              </a>
-            ))}
-          </div>
-        </aside>
+          
 
-        {/* Main */}
-        <div className="main-wrapper">
-          <div className="main-content">
-            {/* Hero text */}
-            <div className="hero-text">
-              <h1>Bem Vindo ao maior Fórum de Inteligência Artificial</h1>
-              <p>
-                Aqui você pode encontrar todo tipo de conteúdo sobre IAs e trocar ideias com diferentes pessoas sobre
-                diferentes assuntos!
-              </p>
+          <div className="bell">
+            🔔
+          </div>
+
+        </header>
+
+        {/* ───────── BODY ───────── */}
+
+        <div className="body">
+
+          {/* SIDEBAR */}
+
+          <aside className="sidebar">
+
+            <div className="sidebar-title">
+              Categorias
             </div>
 
-            {/* Grid superior - agora com altura consistente */}
-            <div className="top-grid">
-              <div className="card trending-card">
-                <div>
-                  <div className="trending-badge">TRENDING TOPIC</div>
-                  <h2 className="trending-title">Arquitetura de Redes Neurais em 2024</h2>
-                  <p className="trending-description">
-                    Desenvolvimento da arquitetura neural vêm se desenvolvendo nesses últimos anos.
-                  </p>
+            <div className="sidebar-sub">
+              Navegar por tópicos
+            </div>
+
+            {categories.map((cat) => (
+              <a
+                key={cat.name}
+                href="#"
+                className="category"
+              >
+                <span>{cat.icon}</span>
+                <span>{cat.name}</span>
+              </a>
+            ))}
+
+          </aside>
+
+          {/* MAIN */}
+
+          <main className="main">
+
+            <h1 className="title">
+              Bem Vindo ao maior Fórum de Inteligência Artificial
+            </h1>
+
+            <p className="subtitle">
+              Aqui você pode encontrar todo tipo de conteúdo sobre IAs e trocar ideias com diferentes pessoas sobre diferentes assuntos!
+            </p>
+
+            {/* GRID */}
+
+            <section className="top-grid">
+
+              <div className="card trend-card">
+
+                <div className="badge">
+                  TRENDING TOPIC
                 </div>
-                <div className="trending-participants">
-                  <span>📈</span>
+
+                <h2 className="trend-title">
+                  Arquitetura de Redes Neurais em 2024
+                </h2>
+
+                <p className="trend-desc">
+                  Desenvolvimento da arquitetura neural vêm se desenvolvendo nesses últimos anos.
+                </p>
+
+                <div className="trend-footer">
+                  <span>👥</span>
                   <span>+128 participando</span>
                 </div>
+
               </div>
 
               <div className="card stat-card">
-                <span style={{ fontSize: '2rem' }}>👥</span>
-                <div className="stat-number">12.4k</div>
-                <div className="stat-label">MEMBROS TOTAIS</div>
+
+                <div className="stat-icon">
+                  👥
+                </div>
+
+                <div className="stat-number">
+                  12.4k
+                </div>
+
+                <div className="stat-label">
+                  MEMBROS TOTAIS
+                </div>
+
               </div>
 
               <div className="card stat-card">
-                <span style={{ fontSize: '2rem' }}>💬</span>
-                <div className="stat-number">852</div>
-                <div className="stat-label">TÓPICOS ATIVOS</div>
-              </div>
-            </div>
 
-            {/* Seção de discussões */}
-            <div>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  marginBottom: '1rem',
-                  flexWrap: 'wrap',
-                  gap: '0.5rem',
-                }}
-              >
-                <h2 style={{ fontSize: '1.1rem', fontWeight: 600, color: '#1a1a2e' }}>Discussões recentes</h2>
-                <div style={{ display: 'flex', gap: '0.25rem' }}>
+                <div className="stat-icon">
+                  💬
+                </div>
+
+                <div className="stat-number">
+                  852
+                </div>
+
+                <div className="stat-label">
+                  TÓPICOS ATIVOS
+                </div>
+
+              </div>
+
+            </section>
+
+            {/* DISCUSSIONS */}
+
+            <section>
+
+              <div className="disc-header">
+
+                <h2 className="disc-title">
+                  Discussões recentes
+                </h2>
+
+                <div className="tabs">
+
                   {['latest', 'popular'].map((tab) => (
                     <button
                       key={tab}
                       onClick={() => setActiveTab(tab)}
-                      style={{
-                        padding: '0.3rem 1rem',
-                        fontSize: '0.8rem',
-                        borderRadius: '6px',
-                        border: 'none',
-                        cursor: 'pointer',
-                        backgroundColor: activeTab === tab ? '#6C63FF' : 'transparent',
-                        color: activeTab === tab ? '#fff' : '#6b7280',
-                        fontWeight: activeTab === tab ? 600 : 400,
-                      }}
+                      className={`tab ${
+                        activeTab === tab ? 'active' : ''
+                      }`}
                     >
-                      {tab === 'latest' ? 'Latest' : 'Popular'}
+                      {tab === 'latest'
+                        ? 'Latest'
+                        : 'Popular'}
                     </button>
                   ))}
+
                 </div>
+
               </div>
 
-              <div>
-                {discussions.map((d) => (
-                  <div key={d.id} className="disc-item">
-                    <div
-                      style={{
-                        width: '40px',
-                        height: '40px',
-                        borderRadius: '10px',
-                        backgroundColor: d.tagBg,
-                        flexShrink: 0,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '1.25rem',
-                      }}
-                    >
-                      {d.icon}
-                    </div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.5rem',
-                          marginBottom: '0.25rem',
-                          flexWrap: 'wrap',
-                        }}
-                      >
-                        <span
-                          style={{
-                            fontSize: '0.65rem',
-                            fontWeight: 700,
-                            letterSpacing: '0.06em',
-                            color: d.tagColor,
-                            backgroundColor: d.tagBg,
-                            padding: '0.15rem 0.6rem',
-                            borderRadius: '4px',
-                          }}
-                        >
-                          {d.tag}
-                        </span>
-                        <span style={{ fontSize: '0.7rem', color: '#9ca3af' }}>{d.time}</span>
-                      </div>
-                      <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#1a1a2e', marginBottom: '0.3rem' }}>
-                        {d.title}
-                      </h3>
-                      <p
-                        style={{
-                          fontSize: '0.8rem',
-                          color: '#6b7280',
-                          lineHeight: 1.4,
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden',
-                        }}
-                      >
-                        {d.excerpt}
-                      </p>
-                    </div>
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'flex-end',
-                        justifyContent: 'center',
-                        gap: '0.25rem',
-                        flexShrink: 0,
-                      }}
-                    >
-                      <span style={{ fontSize: '0.75rem', color: '#6b7280', whiteSpace: 'nowrap' }}>💬 {d.comments}</span>
-                      <span style={{ fontSize: '0.75rem', color: '#6b7280', whiteSpace: 'nowrap' }}>👁️ {d.views}</span>
-                    </div>
+              {discussions.map((d) => (
+
+                <div
+                  key={d.id}
+                  className="discussion"
+                >
+
+                  <div
+                    className="disc-icon"
+                    style={{
+                      background:d.tagBg
+                    }}
+                  >
+                    {d.icon}
                   </div>
-                ))}
-              </div>
-            </div>
-          </div>
+
+                  <div className="disc-content">
+
+                    <div className="disc-meta">
+
+                      <span
+                        className="tag"
+                        style={{
+                          color:d.tagColor,
+                          background:d.tagBg
+                        }}
+                      >
+                        {d.tag}
+                      </span>
+
+                      <span className="time">
+                        {d.time}
+                      </span>
+
+                    </div>
+
+                    <h3 className="disc-name">
+                      {d.title}
+                    </h3>
+
+                    <p className="excerpt">
+                      {d.excerpt}
+                    </p>
+
+                  </div>
+
+                  <div className="stats">
+                    <span>💬 {d.comments}</span>
+                    <span>👁 {d.views}</span>
+                  </div>
+
+                </div>
+
+              ))}
+
+            </section>
+
+          </main>
+
         </div>
+
+        {/* FOOTER */}
+
+        <footer className="footer">
+
+          <div className="footer-links">
+
+            <a href="#" className="footer-link">
+              Privacy Policy
+            </a>
+
+            <a href="#" className="footer-link">
+              Community Guidelines
+            </a>
+
+            <a href="#" className="footer-link">
+              Support
+            </a>
+
+            <a href="#" className="footer-link">
+              About Us
+            </a>
+
+          </div>
+
+          <div className="footer-brand">
+            ConhecendoIA
+          </div>
+
+          <div className="footer-copy">
+            © 2026 ConhecendoIA. Lorem ipsum
+          </div>
+
+        </footer>
+
       </div>
     </>
   );
