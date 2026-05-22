@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import DatabaseConnectionManager from "../lib/db/DatabaseConnectionManager";
+import styles from './login.module.css';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -25,65 +26,65 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="page-container">
-      <main className="main-content animate-fade-in">
-        <div className="logo-container">
-          <div className="logo"></div>
+    <div className={styles.pageContainer}>
+      <main className={`${styles.mainContent} ${styles.animateFadeIn}`}>
+        <div className={styles.logoContainer}>
+          <div className={styles.logo}></div>
         </div>
         
-        <div className="login-card">
-          <div className="login-header">
-            <h1 className="login-title">Login do Usuário</h1>
-            <p className="login-subtitle">
+        <div className={styles.loginCard}>
+          <div className={styles.loginHeader}>
+            <h1 className={styles.loginTitle}>Login do Usuário</h1>
+            <p className={styles.loginSubtitle}>
               Entre no maior fórum de Inteligência Artificial, se não tem uma conta, cadastre-se!
             </p>
           </div>
 
           <form>
-            <div className="form-group">
-              <label htmlFor="username" className="form-label">Digite seu Usuário</label>
+            <div className={styles.formGroup}>
+              <label htmlFor="username" className={styles.formLabel}>Digite seu Usuário</label>
               <input 
                 type="text" 
                 id="username" 
-                className="form-input" 
+                className={styles.formInput} 
                 placeholder="Ex: Joao" 
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="password" className="form-label">Digite sua senha</label>
+            <div className={styles.formGroup}>
+              <label htmlFor="password" className={styles.formLabel}>Digite sua senha</label>
               <input 
                 type="password" 
                 id="password" 
-                className="form-input" 
+                className={styles.formInput} 
               />
             </div>
 
-            <a href="#" className="forgot-password">Esqueci minha senha</a>
+            <a href="#" className={styles.forgotPassword}>Esqueci minha senha</a>
 
-            <div className="action-buttons">
+            <div className={styles.actionButtons}>
               <button 
                 type="button" 
-                className="btn btn-primary"
+                className={`${styles.btn} ${styles.btnPrimary}`}
                 onClick={handleLogin}
               >
                 Entrar
               </button>
-              <button type="button" className="btn btn-secondary">Cadastrar</button>
+              <button type="button" className={`${styles.btn} ${styles.btnSecondary}`}>Cadastrar</button>
             </div>
           </form>
         </div>
       </main>
 
-      <footer className="footer">
-        <div className="footer-links">
-          <a href="#" className="footer-link">Privacy Policy</a>
-          <a href="#" className="footer-link">Community Guidelines</a>
-          <a href="#" className="footer-link">Support</a>
-          <a href="#" className="footer-link">About Us</a>
+      <footer className={styles.footer}>
+        <div className={styles.footerLinks}>
+          <a href="#" className={styles.footerLink}>Privacy Policy</a>
+          <a href="#" className={styles.footerLink}>Community Guidelines</a>
+          <a href="#" className={styles.footerLink}>Support</a>
+          <a href="#" className={styles.footerLink}>About Us</a>
         </div>
-        <div className="footer-brand">ConhecendoIA</div>
-        <div className="footer-copy">© 2026 ConhecendoIA Lorem Ipsum</div>
+        <div className={styles.footerBrand}>ConhecendoIA</div>
+        <div className={styles.footerCopy}>© 2026 ConhecendoIA Lorem Ipsum</div>
       </footer>
     </div>
   );
