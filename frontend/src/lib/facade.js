@@ -115,3 +115,23 @@ class PlataformaFacade {
     return this.temaService.listar();
   }
 }
+
+// =========================================================
+// USO — o cliente só conhece PlataformaFacade
+// =========================================================
+
+const plataforma = new PlataformaFacade();
+
+const arthur = plataforma.cadastrarUsuario(1, "Arthur", "arthur@email.com", "hash123");
+
+const trilha = plataforma.criarTrilha("t1", "Fundamentos de IA", "Aprender IA do zero", "iniciante");
+
+plataforma.cadastrarTema("tema1", "Redes Neurais", "Como as redes neurais aprendem");
+plataforma.cadastrarTema("tema2", "Machine Learning", "Algoritmos de aprendizado de máquina");
+
+plataforma.iniciarProgresso(arthur);
+plataforma.registrarAvanco(arthur.id, 60);
+plataforma.registrarAvanco(arthur.id, 40);
+
+const progresso = plataforma.consultarProgresso(arthur.id);
+console.log(Progresso de ${arthur.nome}: ${progresso.percentualConcluido}% — ${progresso.desempenho});
