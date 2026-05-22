@@ -4,11 +4,10 @@ import Link from 'next/link';
 import styles from './AppLayout.module.css';
 
 const categories = [
-  { name: 'Neural Networks', icon: '🧠', href: '#' },
+  { name: 'Neural Networks', icon: '🧠', href: '/neural-networks' },
   { name: 'Machine Learning', icon: '⚙️', href: '/topico' },
-  { name: 'Deep Learning', icon: '🔬', href: '#' },
-  { name: 'Data Science', icon: '📊', href: '#' },
-  { name: 'Rules', icon: '📋', href: '#' },
+  { name: 'Deep Learning', icon: '🔬', href: '/deep-learning' },
+  { name: 'Data Science', icon: '📊', href: '/data-science' },
 ];
 
 export default function AppLayout({ children, activePage = "Home", activeCategory = "" }) {
