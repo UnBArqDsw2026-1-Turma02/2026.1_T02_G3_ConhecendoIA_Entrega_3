@@ -71,10 +71,15 @@ export default function LoginPage() {
   // ==========================================
   // DADOS FALSOS PARA O STRATEGY (GoF Comportamental)
   // ==========================================
-  const postsDeTeste = [
-    { id: 1, title: "O que é Machine Learning?", creatorName: "Zeca", createdAt: "2023-10-01" },
-    { id: 2, title: "Como usar o ChatGPT", creatorName: "Aline", createdAt: "2023-10-05" },
-    { id: 3, title: "Dúvida sobre Python", creatorName: "Caio", createdAt: "2023-10-03" }
+const postsDeTeste = [
+    { id: 1, title: "O que é Machine Learning?", creatorName: "Zeca", createdAt: "2023/10/01" },
+    { id: 2, title: "Como usar o ChatGPT no dia a dia", creatorName: "Aline", createdAt: "2023/10/05" },
+    { id: 3, title: "Dúvida: Como inverter uma lista em Python?", creatorName: "Caio", createdAt: "2023/10/03" },
+    { id: 4, title: "Melhores frameworks de IA para Frontend", creatorName: "Bruno", createdAt: "2023/10/08" },
+    { id: 5, title: "Introdução a Redes Neurais Convolucionais", creatorName: "Diana", createdAt: "2023/10/02" },
+    { id: 6, title: "Vale a pena aprender Java para IA em 2024?", creatorName: "Thiago", createdAt: "2023/10/10" },
+    { id: 7, title: "Como criar uma API REST com Node.js e OpenAI", creatorName: "Fernanda", createdAt: "2023/10/07" },
+    { id: 8, title: "Dicas de prompts para gerar imagens no Midjourney", creatorName: "Igor", createdAt: "2023/10/04" }
   ];
 
   return (

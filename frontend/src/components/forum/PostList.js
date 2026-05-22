@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useMemo } from 'react';
-// Agora a importação vai funcionar perfeitamente!
 import {
   SortByDateDescendingStrategy,
   SortByDateAscendingStrategy,
