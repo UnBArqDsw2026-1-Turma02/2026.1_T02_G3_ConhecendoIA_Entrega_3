@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criar Tópico - ConhecendoIA</title>
+  <style>
+    :root {
+      --bg-color: #f7f8fa;
+      --card-bg: #ffffff;
+      --text-main: #1a1a1a;
+      --text-muted: #6b7280;
+      --border-color: #e5e7eb;
+      --primary-color: #8b5cf6;
+      --primary-hover: #7c3aed;
+      --error-color: #ef4444;
+      --success-color: #10b981;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 20px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+
+    input[type="text"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--primary-color);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    button {
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 24px;
+      border-radius: 8px;
+      border: none;
+      transition: background-color 0.2s;
+    }
+
+    .btn-cancel {
+      background: transparent;
+      color: var(--text-muted);
+    }
+
+    .btn-cancel:hover {
+      color: var(--text-main);
+    }
+
+    .btn-publish {
+      background-color: var(--primary-color);
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-publish:hover {
+      background-color: var(--primary-hover);
+    }
+
+    /* Área de feedback para mostrar o resultado do Builder */
+    #feedback {
+      margin-top: 24px;
+      padding: 16px;
+      border-radius: 8px;
+      display: none;
+      font-size: 14px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .feedback-error {
+      background-color: #fef2f2;
+      color: var(--error-color);
+      border: 1px solid #fecaca;
+    }
+
+    .feedback-success {
+      background-color: #f0fdf4;
+      color: var(--success-color);
+      border: 1px solid #bbf7d0;
+      color: #065f46;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Criar Tópico</h1>
+    <p class="subtitle">Inicie uma nova conversa na comunidade. Seja claro e objetivo na sua dúvida.</p>
+
+    <div class="card">
+      <div class="form-group">
+        <label for="titulo">Título da Discussão</label>
+        <input type="text" id="titulo" placeholder="Ex: Dúvida sobre camadas em Redes Neurais...">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="categoria">Categoria</label>
+          <select id="categoria">
+            <option value="">Selecione uma categoria</option>
+            <option value="Machine Learning">Machine Learning</option>
+            <option value="Deep Learning">Deep Learning</option>
+            <option value="Data Science">Data Science</option>
+            <option value="Neural Networks">Neural Networks</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="tags">Tags (Opcional)</label>
+          <input type="text" id="tags" placeholder="Ex: algoritmos, regressao">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="mensagem">Mensagem</label>
+        <textarea id="mensagem" placeholder="Descreva sua dúvida, ideia ou compartilhe seu conhecimento aqui..."></textarea>
+      </div>
+
+      <div class="actions">
+        <button class="btn-cancel" id="btn-cancelar">Cancelar</button>
+        <button class="btn-publish" id="btn-publicar">+ Publicar</button>
+      </div>
+
+      <div id="feedback"></div>
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // Classes do Domínio (Produto e Builder)
+    // ==========================================
+    class TopicoDiscussao {
+      constructor() {
+        this.id = null;
+        this.titulo = "";
+        this.categoria = "";
+        this.tags = [];
+        this.mensagem = "";
+      }
+
+      adicionarTag(tag) {
+        if (tag && !this.tags.includes(tag.trim())) {
+          this.tags.push(tag.trim());
+        }
+      }
+
+      ehValido() {
+        return this.titulo.length > 0 && this.categoria.length > 0 && this.mensagem.length > 0;
+      }
+    }
+
+    class TopicoDiscussaoBuilder {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.topico = new TopicoDiscussao();
+        return this;
+      }
+
+      setId(id) {
+        this.topico.id = id;
+        return this;
+      }
+
+      setTitulo(titulo) {
+        this.topico.titulo = titulo;
+        return this;
+      }
+
+      setCategoria(categoria) {
+        this.topico.categoria = categoria;
+        return this;
+      }
+
+      setMensagem(mensagem) {
+        this.topico.mensagem = mensagem;
+        return this;
+      }
+
+      setTagsEmLote(stringDeTags) {
+        if (stringDeTags) {
+          const tagsArray = stringDeTags.split(',');
+          tagsArray.forEach(tag => {
+            if (tag.trim() !== '') {
+              this.topico.adicionarTag(tag);
+            }
+          });
+        }
+        return this;
+      }
+
+      build() {
+        if (!this.topico.ehValido()) {
+          throw new Error("Erro na publicação: Título, Categoria e Mensagem são obrigatórios.");
+        }
+        
+        const resultado = this.topico;
+        this.reset();
+        return resultado;
+      }
+    }
+
+    // ==========================================
+    // Interação com a Interface (DOM)
+    // ==========================================
+    const btnPublicar = document.getElementById('btn-publicar');
+    const feedback = document.getElementById('feedback');
+
+    btnPublicar.addEventListener('click', () => {
+      // 1. Captura os valores do formulário
+      const titulo = document.getElementById('titulo').value.trim();
+      const categoria = document.getElementById('categoria').value;
+      const tags = document.getElementById('tags').value.trim();
+      const mensagem = document.getElementById('mensagem').value.trim();
+
+      try {
+        // 2. Utiliza o Builder para construir o objeto
+        const builder = new TopicoDiscussaoBuilder();
+        const novoTopico = builder
+          .setTitulo(titulo)
+          .setCategoria(categoria)
+          .setTagsEmLote(tags)
+          .setMensagem(mensagem)
+          .build();
+
+        // 3. Sucesso: Mostra o objeto JSON criado
+        feedback.style.display = 'block';
+        feedback.className = 'feedback-success';
+        feedback.textContent = "Objeto Construído com Sucesso!\n\n" + JSON.stringify(novoTopico, null, 2);
+        
+      } catch (error) {
+        // 4. Falha: Mostra a mensagem de erro do Builder
+        feedback.style.display = 'block';
+        feedback.className = 'feedback-error';
+        feedback.textContent = error.message;
+      }
+    });
+
+    // Ação simples para o botão de cancelar
+    document.getElementById('btn-cancelar').addEventListener('click', () => {
+      document.getElementById('titulo').value = '';
+      document.getElementById('categoria').value = '';
+      document.getElementById('tags').value = '';
+      document.getElementById('mensagem').value = '';
+      feedback.style.display = 'none';
+    });
+  </script>
+</body>
+</html>
