@@ -24,4 +24,3 @@
   - [1. Ata-18/05/2026](./PadroesDeProjeto/Atas/Ata1.md)
   - [2. Ata-19/04/2026](./PadroesDeProjeto/Atas/Ata2.md)
   - [3. Ata-20/04/2026](./PadroesDeProjeto/Atas/Ata3.md)
-  - [4. Ata-21/04/2026](./PadroesDeProjeto/Atas/Ata4.md)
