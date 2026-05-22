@@ -134,4 +134,4 @@ plataforma.registrarAvanco(arthur.id, 60);
 plataforma.registrarAvanco(arthur.id, 40);
 
 const progresso = plataforma.consultarProgresso(arthur.id);
-console.log(Progresso de ${arthur.nome}: ${progresso.percentualConcluido}% — ${progresso.desempenho});
+console.log(`Progresso de ${arthur.nome}: ${progresso.percentualConcluido}% — ${progresso.desempenho}`);
