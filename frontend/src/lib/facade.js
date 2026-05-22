@@ -70,3 +70,48 @@ class TemaService {
     return [...this.temas.values()];
   }
 }
+
+class PlataformaFacade {
+  constructor() {
+    this.trilhaService   = new TrilhaService();
+    this.usuarioService  = new UsuarioService();
+    this.progressoService = new ProgressoService();
+    this.temaService     = new TemaService();
+  }
+
+  // --- Usuário ---
+  cadastrarUsuario(id, nome, email, senhaHash) {
+    return this.usuarioService.cadastrar(id, nome, email, senhaHash);
+  }
+
+  // --- Trilha ---
+  criarTrilha(id, nome, objetivo, nivel) {
+    return this.trilhaService.criarTrilha(id, nome, objetivo, nivel);
+  }
+
+  adicionarModulo(trilha, modulo) {
+    this.trilhaService.adicionarModuloNaTrilha(trilha, modulo);
+  }
+
+  // --- Progresso ---
+  iniciarProgresso(usuario) {
+    return this.progressoService.iniciar(usuario);
+  }
+
+  registrarAvanco(usuarioId, valor) {
+    this.progressoService.registrarAvanco(usuarioId, valor);
+  }
+
+  consultarProgresso(usuarioId) {
+    return this.progressoService.buscar(usuarioId);
+  }
+
+  // --- Tema ---
+  cadastrarTema(id, area, descricao) {
+    return this.temaService.cadastrar(id, area, descricao);
+  }
+
+  listarTemas() {
+    return this.temaService.listar();
+  }
+}
