@@ -3,11 +3,13 @@
 import Link from 'next/link';
 import styles from './AppLayout.module.css';
 
+import { Brain, Bot, Layers, Database, Ruler } from 'lucide-react';
+
 const categories = [
-  { name: 'Neural Networks', icon: '🧠', href: '/neural-networks' },
-  { name: 'Machine Learning', icon: '⚙️', href: '/topico' },
-  { name: 'Deep Learning', icon: '🔬', href: '/deep-learning' },
-  { name: 'Data Science', icon: '📊', href: '/data-science' },
+  { name: 'Neural Networks', icon: Brain,    href: '/neural-networks' },
+  { name: 'Machine Learning', icon: Bot,     href: '/topico' },
+  { name: 'Deep Learning',   icon: Layers,   href: '/deep-learning' },
+  { name: 'Data Science',    icon: Database, href: '/data-science' },
 ];
 
 export default function AppLayout({ children, activePage = "Home", activeCategory = "" }) {
@@ -50,22 +52,25 @@ export default function AppLayout({ children, activePage = "Home", activeCategor
       <div className={styles.body}>
         {/* Sidebar */}
         <aside className={styles.sidebar}>
-          <h2 className={styles.sidebarTitle}>Categories</h2>
-          <p className={styles.sidebarSubtitle}>Navegar por tópicos</p>
-          
-          <div className={styles.categoryList}>
-            {categories.map((cat) => (
-              <Link 
-                key={cat.name} 
-                href={cat.href} 
-                className={`${styles.categoryItem} ${cat.name === activeCategory ? styles.activeCategory : ''}`}
-              >
-                <span className={styles.categoryIcon}>{cat.icon}</span>
-                {cat.name}
-              </Link>
-            ))}
-          </div>
-        </aside>
+  <h2 className={styles.sidebarTitle}>Categorias</h2>
+  <p className={styles.sidebarSubtitle}>Navegar por tópicos</p>
+
+  <div className={styles.categoryList}>
+    {categories.map((cat) => {
+      const Icon = cat.icon;
+      return (
+        <Link
+          key={cat.name}
+          href={cat.href}
+          className={`${styles.categoryItem} ${cat.name === activeCategory ? styles.activeCategory : ''}`}
+        >
+          <Icon size={20} strokeWidth={1.75} />
+          {cat.name}
+        </Link>
+      );
+    })}
+  </div>
+</aside>
 
         {/* Main Content */}
         <main className={styles.mainContent}>

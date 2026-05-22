@@ -174,3 +174,11 @@
 .footerCopy {
   color: #cbd5e1;
 }
+.categoryIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
