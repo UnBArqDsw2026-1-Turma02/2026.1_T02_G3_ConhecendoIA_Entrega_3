@@ -1,15 +1,21 @@
 <!-- docs/_sidebar.md -->
-
-- [Home](/docs)
-- [Projetos](/docs/Projeto/Projeto.md)
+- [Sobre o projeto](README.md)
+- [Código de conduta](CODE_OF_CONDUCT.md)
+- [Como contribuir](CONTRIBUTING.md)
 
 - **Padrões de Projeto**
   - [3. Desenho de Software (Padrões de Projeto)](/docs/PadroesDeProjeto/3.PadroesDeProjeto.md)
+    
     - [3.1. Padrões de Projeto GoFs Criacionais](/docs/PadroesDeProjeto/3.1.GoFsCriacionais.md)
       - [3.1.3 Singleton](/PadroesDeProjeto/3.1.3Singleton.md)
     - [3.2. Padrões de Projeto GoFs Estruturais](/docs/PadroesDeProjeto/3.2.GoFsEstruturais.md)
       - [3.2.2 Decorator](/PadroesDeProjeto/3.2.2Decorator.md)
     - [3.3. Padrões de Projeto GoFs Comportamentais](/docs/PadroesDeProjeto/3.3.GoFsComportamentais.md)
+      - [3.3.1 Strategy](/PadroesDeProjeto/3.3.1Strategy.md)
     - [3.4. Participações - Padrões de Projeto](/docs/PadroesDeProjeto/3.4.ParticipacoesPadroes.md)
     - [3.5. Iniciativas Extras - Padrões de Projeto](/docs/PadroesDeProjeto/3.5.IniciativasExtras.md)
-      
+- **Atas**
+  - [1. Ata-18/05/2026](./Modelagem/Atas/Ata1.md)
+  - [2. Ata-19/04/2026](./Modelagem/Atas/Ata2.md)
+  - [3. Ata-20/04/2026](./Modelagem/Atas/Ata3.md)
+  - [4. Ata-21/04/2026](./Modelagem/Atas/Ata4.md)
