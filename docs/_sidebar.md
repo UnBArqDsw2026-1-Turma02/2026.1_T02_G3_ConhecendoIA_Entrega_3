@@ -21,7 +21,7 @@
     - [3.4. Participações - Padrões de Projeto](/PadroesDeProjeto/3.4.ParticipacoesPadroes.md)
     - [3.5. Iniciativas Extras - Padrões de Projeto](/PadroesDeProjeto/3.5.IniciativasExtras.md)
 - **Atas**
-  - [1. Ata-18/05/2026](./Modelagem/Atas/Ata1.md)
-  - [2. Ata-19/04/2026](./Modelagem/Atas/Ata2.md)
-  - [3. Ata-20/04/2026](./Modelagem/Atas/Ata3.md)
-  - [4. Ata-21/04/2026](./Modelagem/Atas/Ata4.md)
+  - [1. Ata-18/05/2026](./PadroesDeProjeto/Atas/Ata1.md)
+  - [2. Ata-19/04/2026](./PadroesDeProjeto/Atas/Ata2.md)
+  - [3. Ata-20/04/2026](./PadroesDeProjeto/Atas/Ata3.md)
+  - [4. Ata-21/04/2026](./PadroesDeProjeto/Atas/Ata4.md)
