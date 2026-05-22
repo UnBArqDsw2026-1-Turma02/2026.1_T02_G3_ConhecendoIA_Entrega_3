@@ -18,4 +18,27 @@ class Subject {
   notificar(dados) {
     this.observers.forEach(obs => obs.atualizar(dados));
   }
+
+}
+
+class NotificacaoPushObserver {
+  // Desestruturação com fallback seguro para detalhe
+  atualizar({ tipo, post, atorInteracao, detalhe = null }) {
+    const autorDoPost = post.autor.nome;
+
+    if (tipo === "comentario") {
+      console.log(`🔔 [PUSH para ${autorDoPost}]: ${atorInteracao.nome} comentou. Disse: "${detalhe}"`);
+    } else if (tipo === "curtida") {
+      console.log(`🔔 [PUSH para ${autorDoPost}]: "${post.titulo}" recebeu curtida de ${atorInteracao.nome}.`);
+    }
+  }
+}
+
+class NotificacaoEmailObserver {
+  atualizar({ tipo, post, atorInteracao }) {
+    const autorDoPost = post.autor.nome;
+    if (tipo === "comentario") {
+      console.log(`📧 [E-MAIL para ${autorDoPost}]: Novo comentário de ${atorInteracao.nome} em "${post.titulo}".`);
+    }
+  }
 }
