@@ -10,6 +10,7 @@
       - [3.1.2 Builder](/PadroesDeProjeto/3.1.2Builder.md)
       - [3.1.3 Singleton](/PadroesDeProjeto/3.1.3Singleton.md)
     - [3.2. Padrões de Projeto GoFs Estruturais](/docs/PadroesDeProjeto/3.2.GoFsEstruturais.md)
+      - [3.2.1 Proxy](/PadroesDeProjeto/3.2.1Proxy.md)
       - [3.2.2 Decorator](/PadroesDeProjeto/3.2.2Decorator.md)
     - [3.3. Padrões de Projeto GoFs Comportamentais](/docs/PadroesDeProjeto/3.3.GoFsComportamentais.md)
       - [3.3.1 Strategy](/PadroesDeProjeto/3.3.1Strategy.md)
