@@ -32,7 +32,7 @@ export default function AppLayout({ children, activePage = "Home", activeCategor
               Discussões
             </Link>
             <Link 
-              href="#" 
+              href="/perfil" 
               className={`${styles.navLink} ${activePage === 'Perfil' ? styles.navLinkActive : ''}`}
             >
               Perfil
