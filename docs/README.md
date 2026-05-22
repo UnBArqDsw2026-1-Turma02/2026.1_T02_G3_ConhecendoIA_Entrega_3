@@ -26,25 +26,6 @@ Este repositório reúne a documentação e os artefatos produzidos ao longo do 
 
 O projeto está sendo desenvolvido pelo Grupo 03 da disciplina de Arquitetura e Desenho de Software, ministrada pela professora Milene Serrano, no primeiro semestre letivo de 2026, na Universidade de Brasília (UnB).
 
-## Screenshots da Segunda Entrega
-
-### Diagrama de Classes
-![Diagrama de Classes](./assets/DiagramaClasses.jpeg)
-
-### Diagrama de Componentes
-![Diagrama de Componentes](./assets/diagrama_de_componentes.png)
-
-### Diagrama de Estados
-![Diagrama de Estados](./assets/DiagramaEstados.png)
-
-### Diagrama de Atividades
-![Diagrama de Atividades](./assets/DiagramaDeAtividade.jpg)
-
-### Diagrama de Casos de Uso
-![Diagrama de Casos de Uso](./assets/diagrama_casos_de_uso.jpg)
-
-### Diagrama de Pacotes
-![Diagrama de Pacotes](./assets/diagrama_de_pacotes.jpg)
 
 ## Há algo a ser executado?
 
@@ -56,7 +37,7 @@ Se SIM, insira um manual (ou um script) para auxiliar ainda mais os interessados
 
 ### Histórico de Versão
 
-| Versão | Data       | Descrição                                | Autor            | Revisor          |
-|--------|------------|------------------------------------------|------------------|------------------|
-| 1.0    | 23/04/2026 | Modificação inicial do documento             | [João Fonseca](https://github.com/joaoguilherme14) | [Ingrid Alves](https://github.com/alvesingrid) |
+| Versão | Data       | Descrição                                | Autor            | 
+|--------|------------|------------------------------------------|------------------|
+| 1.0    | 23/04/2026 | Modificação inicial do documento             | [João Fonseca](https://github.com/joaoguilherme14) | 
 
