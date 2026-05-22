@@ -82,10 +82,7 @@ class Notification {
 // 2. CONCRETE PRODUCTS — Tipos concretos de notificação
 // ─────────────────────────────────────────────────────────
 
-/**
- * Notificação gerada por atividades no Fórum
- * (nova resposta, menção, tópico fixado, etc.)
- */
+
 class ForumNotification extends Notification {
   constructor({ message, userId, data = {} }) {
     super({ message, userId, data });
@@ -106,10 +103,7 @@ class ForumNotification extends Notification {
   }
 }
 
-/**
- * Notificação gerada pela IDE Python
- * (execução finalizada, erro de compilação, timeout, etc.)
- */
+
 class IDENotification extends Notification {
   constructor({ message, userId, data = {} }) {
     super({ message, userId, data });
@@ -130,10 +124,6 @@ class IDENotification extends Notification {
   }
 }
 
-/**
- * Notificação de conquistas do sistema de gamificação
- * (badge conquistado, XP recebido, subida de ranking, etc.)
- */
 class AchievementNotification extends Notification {
   constructor({ message, userId, data = {} }) {
     super({ message, userId, data });
@@ -155,10 +145,7 @@ class AchievementNotification extends Notification {
   }
 }
 
-/**
- * Notificação de sistema / administrativa
- * (manutenção, alerta de segurança, aviso global, etc.)
- */
+
 class SystemNotification extends Notification {
   constructor({ message, userId, data = {} }) {
     super({ message, userId, data });
@@ -182,10 +169,7 @@ class SystemNotification extends Notification {
 // 3. CREATOR — Classe abstrata com o Factory Method
 // ─────────────────────────────────────────────────────────
 
-/**
- * Classe abstrata Creator que define o Factory Method createNotification().
- * Subclasses concretas decidem qual tipo de Notification instanciar.
- */
+
 class NotificationCreator {
   constructor() {
     if (new.target === NotificationCreator) {
@@ -240,36 +224,28 @@ class NotificationCreator {
 // 4. CONCRETE CREATORS — Fábricas concretas
 // ─────────────────────────────────────────────────────────
 
-/**
- * Cria notificações do tipo ForumNotification.
- */
+
 class ForumNotificationCreator extends NotificationCreator {
   createNotification(data) {
     return new ForumNotification(data);
   }
 }
 
-/**
- * Cria notificações do tipo IDENotification.
- */
+
 class IDENotificationCreator extends NotificationCreator {
   createNotification(data) {
     return new IDENotification(data);
   }
 }
 
-/**
- * Cria notificações do tipo AchievementNotification.
- */
+
 class AchievementNotificationCreator extends NotificationCreator {
   createNotification(data) {
     return new AchievementNotification(data);
   }
 }
 
-/**
- * Cria notificações do tipo SystemNotification.
- */
+
 class SystemNotificationCreator extends NotificationCreator {
   createNotification(data) {
     return new SystemNotification(data);
@@ -280,11 +256,7 @@ class SystemNotificationCreator extends NotificationCreator {
 // 5. NOTIFICATION FACTORY — Fachada utilitária
 // ─────────────────────────────────────────────────────────
 
-/**
- * Classe utilitária que simplifica o uso do Factory Method.
- * Mapeia strings de tipo para os Creators concretos e expõe
- * uma API simplificada para criar e enviar notificações.
- */
+
 class NotificationFactory {
   static _creators = {
     forum: new ForumNotificationCreator(),
