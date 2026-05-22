@@ -42,3 +42,23 @@ class NotificacaoEmailObserver {
     }
   }
 }
+
+const profAltair = new Usuario(1, "Prof. Altair");
+const alunoJoao  = new Usuario(2, "João Silva");
+const alunaMaria = new Usuario(3, "Maria Souza");
+
+const postRedesNeurais = new Post(101, "O que é um Perceptron?", "...", profAltair);
+
+const servicoPush  = new NotificacaoPushObserver();
+const servicoEmail = new NotificacaoEmailObserver();
+
+postRedesNeurais.inscrever(servicoPush);
+postRedesNeurais.inscrever(servicoEmail);
+
+postRedesNeurais.adicionarCurtida(alunoJoao);
+postRedesNeurais.adicionarComentario(alunaMaria, "Excelente explicação!");
+postRedesNeurais.adicionarComentario(profAltair, "Fico feliz em ajudar!");
+
+// Exemplo: desinscrever push quando usuário desativa notificações
+postRedesNeurais.desinscrever(servicoPush);
+console.log("Push desativado para este post.");
