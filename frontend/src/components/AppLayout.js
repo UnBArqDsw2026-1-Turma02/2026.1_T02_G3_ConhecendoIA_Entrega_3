@@ -4,14 +4,14 @@ import Link from 'next/link';
 import styles from './AppLayout.module.css';
 
 const categories = [
-  { name: 'Neural Networks', icon: '🧠' },
-  { name: 'Machine Learning', icon: '⚙️' },
-  { name: 'Deep Learning', icon: '🔬' },
-  { name: 'Data Science', icon: '📊' },
-  { name: 'Rules', icon: '📋' },
+  { name: 'Neural Networks', icon: '🧠', href: '#' },
+  { name: 'Machine Learning', icon: '⚙️', href: '/topico' },
+  { name: 'Deep Learning', icon: '🔬', href: '#' },
+  { name: 'Data Science', icon: '📊', href: '#' },
+  { name: 'Rules', icon: '📋', href: '#' },
 ];
 
-export default function AppLayout({ children, activePage = "Home" }) {
+export default function AppLayout({ children, activePage = "Home", activeCategory = "" }) {
   return (
     <div className={styles.layoutContainer}>
       {/* Header */}
@@ -56,10 +56,14 @@ export default function AppLayout({ children, activePage = "Home" }) {
           
           <div className={styles.categoryList}>
             {categories.map((cat) => (
-              <a key={cat.name} href="#" className={styles.categoryItem}>
+              <Link 
+                key={cat.name} 
+                href={cat.href} 
+                className={`${styles.categoryItem} ${cat.name === activeCategory ? styles.activeCategory : ''}`}
+              >
                 <span className={styles.categoryIcon}>{cat.icon}</span>
                 {cat.name}
-              </a>
+              </Link>
             ))}
           </div>
         </aside>
