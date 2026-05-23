@@ -1,7 +1,6 @@
 <!-- docs/_sidebar.md -->
 - [Sobre o projeto](README.md)
 - [Código de conduta](CODE_OF_CONDUCT.md)
-- [Como contribuir](CONTRIBUTING.md)
 
 - **Padrões de Projeto**
   - [3. Desenho de Software (Padrões de Projeto)](/PadroesDeProjeto/3.PadroesDeProjeto.md)
